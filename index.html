@@ -168,15 +168,23 @@ body {
   letter-spacing: 1px;
 }
 
+.top-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
 .stats-bar {
   display: flex;
   gap: 15px;
+  margin-top: 10px;
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .stat-label {
@@ -191,6 +199,30 @@ body {
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
+.high-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+  padding: 10px 15px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.high-score-label {
+  color: #ffd700;
+  font-size: 0.75rem;
+  margin-bottom: 5px;
+}
+
+.high-score-value {
+  color: #ffd700;
+  font-family: 'PressStart2P', monospace;
+  font-size: 0.9rem;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
 .controls-area {
   width: 100%;
   max-width: 320px;
@@ -198,6 +230,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 20px 10px;
+  position: relative;
   background: rgba(0, 0, 0, 0.4);
   border: 2px solid #00ffff;
   border-radius: 12px;
@@ -261,6 +294,18 @@ body {
 .btn-secondary:active {
   background: linear-gradient(135deg, #aaaaff, #6666cc);
   box-shadow: 0 0 20px rgba(136, 136, 255, 0.8);
+  transform: scale(0.95);
+}
+
+.btn-info {
+  background: linear-gradient(135deg, #00cccc, #0088aa);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 204, 204, 0.5);
+}
+
+.btn-info:active {
+  background: linear-gradient(135deg, #00eeee, #00aaaa);
+  box-shadow: 0 0 20px rgba(0, 204, 204, 0.8);
   transform: scale(0.95);
 }
 
@@ -363,18 +408,16 @@ body {
     flex: 1;
     margin-bottom: 0;
     margin-top: 80px;
+    max-width: 360px;
   }
 
   .game-board {
-    max-width: 320px;
+    max-width: 360px;
   }
 
-  .info-bar {
-    flex-direction: column;
-    gap: 12px;
+  .top-info {
     align-items: flex-start;
-    max-width: 220px;
-    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .next-preview {
@@ -391,6 +434,7 @@ body {
     flex-direction: column;
     gap: 10px;
     width: 100%;
+    margin-top: 15px;
   }
 
   .stat-item {
@@ -398,12 +442,18 @@ body {
     justify-content: space-between;
   }
 
+  .high-score {
+    align-self: flex-start;
+    margin-top: 20px;
+    width: 100%;
+  }
+
   .controls-area {
-    flex: 0 0 220px;
+    flex: 0 0 280px;
     border-radius: 12px;
     margin-top: 80px;
     padding: 25px;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .game-controls {
@@ -411,7 +461,24 @@ body {
   }
 
   .touch-controls {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .control-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+  }
+
+  .wide-btn {
+    width: 100%;
+    max-width: 160px;
+    height: 45px;
+    font-size: 0.85rem;
   }
 
   .instructions-desktop {
@@ -466,6 +533,8 @@ body {
             <div class="game-over-content">
               <h2>游戏结束</h2>
               <p>最终得分: <span id="finalScore">0</span></p>
+              <p>历史最高: <span id="gameOverHighScore">0</span></p>
+              <p id="newRecord" style="display: none; color: #ffd700; font-size: 1.2rem; margin: 10px 0;">🎉 新纪录！</p>
               <button class="btn btn-primary" onclick="game.restart()">重新开始</button>
             </div>
           </div>
@@ -477,47 +546,58 @@ body {
           </div>
         </div>
       </div>
-      
-      <div class="info-bar">
-        <div class="next-preview">
-          <canvas id="nextCanvas" width="55" height="55"></canvas>
-          <span class="next-label">下一个</span>
-        </div>
-        <div class="stats-bar">
-          <div class="stat-item">
-            <span class="stat-label">得分</span>
-            <span class="stat-value" id="score">0</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">等级</span>
-            <span class="stat-value" id="level">1</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">行数</span>
-            <span class="stat-value" id="lines">0</span>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="controls-area">
       <div class="control-section">
+        <div class="top-info">
+          <div class="next-preview">
+            <canvas id="nextCanvas" width="55" height="55"></canvas>
+            <span class="next-label">下一个</span>
+          </div>
+          <div class="stats-bar">
+            <div class="stat-item">
+              <span class="stat-label">得分</span>
+              <span class="stat-value" id="score">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">等级</span>
+              <span class="stat-value" id="level">1</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">行数</span>
+              <span class="stat-value" id="lines">0</span>
+            </div>
+          </div>
+          <div class="high-score">
+            <span class="high-score-label">🏆 历史最高</span>
+            <span class="high-score-value" id="highScore">0</span>
+          </div>
+        </div>
+        
         <div class="game-controls">
           <button class="btn btn-primary" onclick="game.start()">开始</button>
           <button class="btn btn-secondary" onclick="game.togglePause()">暂停</button>
           <button class="btn btn-danger" onclick="game.restart()">重置</button>
+          <button class="btn btn-info" id="soundBtn" onclick="game.toggleSound()">声音：开启</button>
         </div>
         
         <div class="touch-controls">
           <div class="control-row">
+            <div></div>
             <button class="control-btn" onclick="game.rotate()">↻</button>
+            <div></div>
           </div>
           <div class="control-row">
             <button class="control-btn" onclick="game.moveLeft()">←</button>
             <button class="control-btn" onclick="game.moveDown()">↓</button>
             <button class="control-btn" onclick="game.moveRight()">→</button>
           </div>
-          <button class="control-btn wide-btn" onclick="game.hardDrop()">快速落下</button>
+          <div class="control-row">
+            <div></div>
+            <button class="control-btn" onclick="game.hardDrop()">⬇</button>
+            <div></div>
+          </div>
         </div>
         
         <div class="swipe-hint">← 在游戏区域左右滑动也可控制 →</div>
@@ -577,6 +657,7 @@ class TetrisGame {
     this.isPlaying = false;
     this.isPaused = false;
     this.isGameOver = false;
+    this.isClearingLines = false;
     
     this.dropInterval = 1000;
     this.lastDropTime = 0;
@@ -584,6 +665,14 @@ class TetrisGame {
     this.touchStartX = 0;
     this.touchStartY = 0;
     this.touchThreshold = 30;
+    
+    this.particles = [];
+    this.clearingLines = [];
+    this.clearAnimationProgress = 0;
+    
+    this.audioCtx = null;
+    this.soundEnabled = true;
+    this.highScore = this.loadHighScore();
     
     this.gameLoop = this.gameLoop.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -600,9 +689,98 @@ class TetrisGame {
   init() {
     this.drawBoard();
     this.drawNextPiece();
+    this.updateHighScoreDisplay();
     document.addEventListener('keydown', this.handleKeyDown);
     document.addEventListener('touchstart', this.handleTouchStart, { passive: true });
     document.addEventListener('touchend', this.handleTouchEnd, { passive: true });
+  }
+  
+  loadHighScore() {
+    const saved = localStorage.getItem('tetrisHighScore');
+    return saved ? parseInt(saved, 10) : 0;
+  }
+  
+  saveHighScore(score) {
+    localStorage.setItem('tetrisHighScore', score.toString());
+  }
+  
+  updateHighScoreDisplay() {
+    document.getElementById('highScore').textContent = this.highScore;
+  }
+  
+  initAudio() {
+    if (!this.audioCtx) {
+      this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (this.audioCtx.state === 'suspended') {
+      this.audioCtx.resume();
+    }
+  }
+  
+  playSound(type) {
+    if (!this.soundEnabled) return;
+    this.initAudio();
+    const ctx = this.audioCtx;
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    const now = ctx.currentTime;
+    
+    switch (type) {
+      case 'move':
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(300, now);
+        oscillator.frequency.setValueAtTime(350, now + 0.05);
+        gainNode.gain.setValueAtTime(0.1, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+        oscillator.start(now);
+        oscillator.stop(now + 0.08);
+        break;
+      case 'rotate':
+        oscillator.type = 'triangle';
+        oscillator.frequency.setValueAtTime(400, now);
+        oscillator.frequency.setValueAtTime(500, now + 0.05);
+        oscillator.frequency.setValueAtTime(600, now + 0.1);
+        gainNode.gain.setValueAtTime(0.1, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+        oscillator.start(now);
+        oscillator.stop(now + 0.12);
+        break;
+      case 'drop':
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(200, now);
+        oscillator.frequency.exponentialRampToValueAtTime(50, now + 0.2);
+        gainNode.gain.setValueAtTime(0.15, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+        oscillator.start(now);
+        oscillator.stop(now + 0.2);
+        break;
+      case 'clear':
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(523, now);
+        oscillator.frequency.setValueAtTime(659, now + 0.1);
+        oscillator.frequency.setValueAtTime(784, now + 0.2);
+        oscillator.frequency.setValueAtTime(1047, now + 0.3);
+        gainNode.gain.setValueAtTime(0.2, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        oscillator.start(now);
+        oscillator.stop(now + 0.4);
+        break;
+      case 'gameover':
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(300, now);
+        oscillator.frequency.setValueAtTime(250, now + 0.2);
+        oscillator.frequency.setValueAtTime(200, now + 0.4);
+        oscillator.frequency.setValueAtTime(150, now + 0.6);
+        gainNode.gain.setValueAtTime(0.2, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+        oscillator.start(now);
+        oscillator.stop(now + 0.8);
+        break;
+    }
   }
   
   start() {
@@ -627,7 +805,30 @@ class TetrisGame {
   }
   
   restart() {
-    this.start();
+    this.isPlaying = false;
+    this.isPaused = false;
+    this.isGameOver = false;
+    this.isClearingLines = false;
+    this.board = this.createBoard();
+    this.score = 0;
+    this.level = 1;
+    this.lines = 0;
+    this.currentPiece = null;
+    this.nextPiece = null;
+    this.particles = [];
+    this.clearingLines = [];
+    this.clearAnimationProgress = 0;
+    this.updateStats();
+    this.drawBoard();
+    this.drawNextPiece();
+    this.hideOverlays();
+  }
+  
+  toggleSound() {
+    this.soundEnabled = !this.soundEnabled;
+    const btn = document.getElementById('soundBtn');
+    btn.textContent = this.soundEnabled ? '声音：开启' : '声音：关闭';
+    btn.className = `btn ${this.soundEnabled ? 'btn-info' : 'btn-secondary'}`;
   }
   
   togglePause() {
@@ -659,7 +860,21 @@ class TetrisGame {
   showGameOver() {
     this.isGameOver = true;
     this.isPlaying = false;
+    
+    const isNewRecord = this.score > this.highScore;
+    if (isNewRecord) {
+      this.highScore = this.score;
+      this.saveHighScore(this.highScore);
+      this.updateHighScoreDisplay();
+    }
+    
+    this.playSound('gameover');
     document.getElementById('finalScore').textContent = this.score;
+    document.getElementById('gameOverHighScore').textContent = this.highScore;
+    
+    const newRecordEl = document.getElementById('newRecord');
+    newRecordEl.style.display = isNewRecord ? 'block' : 'none';
+    
     document.getElementById('gameOverOverlay').classList.add('show');
   }
   
@@ -721,6 +936,7 @@ class TetrisGame {
     if (this.isValidMove(this.currentPiece, -1, 0)) {
       this.currentPiece.x--;
       this.draw();
+      this.playSound('move');
     }
   }
   
@@ -729,6 +945,7 @@ class TetrisGame {
     if (this.isValidMove(this.currentPiece, 1, 0)) {
       this.currentPiece.x++;
       this.draw();
+      this.playSound('move');
     }
   }
   
@@ -749,12 +966,14 @@ class TetrisGame {
     if (this.isValidMove(rotated)) {
       this.currentPiece = rotated;
       this.draw();
+      this.playSound('rotate');
     } else {
       const kicks = [-1, 1, -2, 2];
       for (const kick of kicks) {
         if (this.isValidMove({ ...rotated, x: rotated.x + kick })) {
           this.currentPiece = { ...rotated, x: rotated.x + kick };
           this.draw();
+          this.playSound('rotate');
           return;
         }
       }
@@ -767,6 +986,7 @@ class TetrisGame {
       this.currentPiece.y++;
       this.score += 2;
     }
+    this.playSound('drop');
     this.lockPiece();
     this.updateStats();
   }
@@ -788,7 +1008,98 @@ class TetrisGame {
       }
     }
     
-    this.clearLines();
+    this.checkLines();
+  }
+  
+  checkLines() {
+    const linesToClear = [];
+    
+    for (let row = ROWS - 1; row >= 0; row--) {
+      if (this.board[row].every(cell => cell !== null)) {
+        linesToClear.push(row);
+      }
+    }
+    
+    if (linesToClear.length > 0) {
+      this.startClearAnimation(linesToClear);
+    } else {
+      this.spawnNextPiece();
+    }
+  }
+  
+  startClearAnimation(lines) {
+    this.isClearingLines = true;
+    this.clearingLines = lines;
+    this.clearAnimationProgress = 0;
+    this.playSound('clear');
+    
+    for (const row of lines) {
+      for (let col = 0; col < COLS; col++) {
+        const color = this.board[row][col];
+        this.createParticles(col, row, color);
+      }
+    }
+    
+    this.animateClear();
+  }
+  
+  createParticles(col, row, color) {
+    const centerX = col * BLOCK_SIZE + BLOCK_SIZE / 2;
+    const centerY = row * BLOCK_SIZE + BLOCK_SIZE / 2;
+    
+    for (let i = 0; i < 8; i++) {
+      const angle = (Math.PI * 2 * i) / 8;
+      this.particles.push({
+        x: centerX,
+        y: centerY,
+        vx: Math.cos(angle) * 3,
+        vy: Math.sin(angle) * 3,
+        color: color,
+        life: 1,
+        decay: 0.02 + Math.random() * 0.02
+      });
+    }
+  }
+  
+  animateClear() {
+    if (this.clearAnimationProgress < 1) {
+      this.clearAnimationProgress += 0.03;
+      this.updateParticles();
+      this.draw();
+      requestAnimationFrame(() => this.animateClear());
+    } else {
+      this.completeClear();
+    }
+  }
+  
+  completeClear() {
+    for (let i = this.clearingLines.length - 1; i >= 0; i--) {
+      this.board.splice(this.clearingLines[i], 1);
+      this.board.unshift(Array(COLS).fill(null));
+    }
+    
+    const linesCleared = this.clearingLines.length;
+    this.lines += linesCleared;
+    
+    const points = [0, 100, 300, 500, 800];
+    this.score += points[linesCleared] * this.level;
+    
+    const newLevel = Math.floor(this.lines / 10) + 1;
+    if (newLevel > this.level) {
+      this.level = newLevel;
+      this.dropInterval = Math.max(100, 1000 - (this.level - 1) * 100);
+    }
+    
+    this.updateStats();
+    
+    this.isClearingLines = false;
+    this.clearingLines = [];
+    this.clearAnimationProgress = 0;
+    
+    this.spawnNextPiece();
+  }
+  
+  spawnNextPiece() {
     this.currentPiece = this.nextPiece;
     this.nextPiece = this.createPiece();
     
@@ -800,32 +1111,14 @@ class TetrisGame {
     this.draw();
   }
   
-  clearLines() {
-    let linesCleared = 0;
-    
-    for (let row = ROWS - 1; row >= 0; row--) {
-      if (this.board[row].every(cell => cell !== null)) {
-        this.board.splice(row, 1);
-        this.board.unshift(Array(COLS).fill(null));
-        linesCleared++;
-        row++;
-      }
-    }
-    
-    if (linesCleared > 0) {
-      this.lines += linesCleared;
-      
-      const points = [0, 100, 300, 500, 800];
-      this.score += points[linesCleared] * this.level;
-      
-      const newLevel = Math.floor(this.lines / 10) + 1;
-      if (newLevel > this.level) {
-        this.level = newLevel;
-        this.dropInterval = Math.max(100, 1000 - (this.level - 1) * 100);
-      }
-      
-      this.updateStats();
-    }
+  updateParticles() {
+    this.particles = this.particles.filter(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.2;
+      p.life -= p.decay;
+      return p.life > 0;
+    });
   }
   
   updateStats() {
@@ -848,6 +1141,8 @@ class TetrisGame {
     }
     
     for (let row = 0; row < ROWS; row++) {
+      if (this.isClearingLines && this.clearingLines.includes(row)) continue;
+      
       for (let col = 0; col < COLS; col++) {
         if (this.board[row][col]) {
           this.drawBlock(col, row, this.board[row][col]);
@@ -921,18 +1216,62 @@ class TetrisGame {
   
   draw() {
     this.drawBoard();
-    this.drawCurrentPiece();
+    
+    if (this.isClearingLines) {
+      this.drawClearingLines();
+    } else {
+      this.drawCurrentPiece();
+    }
+    
+    this.drawParticles();
+  }
+  
+  drawClearingLines() {
+    for (const row of this.clearingLines) {
+      for (let col = 0; col < COLS; col++) {
+        const x = col * BLOCK_SIZE;
+        const y = row * BLOCK_SIZE;
+        
+        const alpha = 1 - this.clearAnimationProgress;
+        const scale = 1 + this.clearAnimationProgress * 0.3;
+        
+        this.ctx.save();
+        this.ctx.translate(x + BLOCK_SIZE / 2, y + BLOCK_SIZE / 2);
+        this.ctx.scale(scale, scale);
+        
+        const color = this.board[row][col];
+        this.ctx.fillStyle = color;
+        this.ctx.globalAlpha = alpha;
+        this.ctx.fillRect(-BLOCK_SIZE / 2 + 1, -BLOCK_SIZE / 2 + 1, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
+        
+        this.ctx.restore();
+      }
+    }
+  }
+  
+  drawParticles() {
+    for (const p of this.particles) {
+      this.ctx.save();
+      this.ctx.globalAlpha = p.life;
+      this.ctx.fillStyle = p.color;
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, 4 * p.life, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.restore();
+    }
   }
   
   gameLoop(timestamp) {
     if (!this.isPlaying || this.isPaused || this.isGameOver) return;
     
-    if (timestamp - this.lastDropTime > this.dropInterval) {
-      if (!this.moveDown()) {
-        this.lockPiece();
-        this.updateStats();
+    if (!this.isClearingLines) {
+      if (timestamp - this.lastDropTime > this.dropInterval) {
+        if (!this.moveDown()) {
+          this.lockPiece();
+          this.updateStats();
+        }
+        this.lastDropTime = timestamp;
       }
-      this.lastDropTime = timestamp;
     }
     
     requestAnimationFrame(this.gameLoop);
