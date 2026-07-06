@@ -39,27 +39,27 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 10px;
+  padding: 10px 5px;
   min-height: 100vh;
 }
 
 .game-title {
   font-family: 'PressStart2P', monospace;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   color: #00ffff;
   text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .game-area {
   width: 100%;
-  max-width: 320px;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .game-board-wrapper {
@@ -69,18 +69,19 @@ body {
 
 .game-board {
   position: relative;
-  border: 3px solid #00ffff;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.1);
+  border: 2px solid #00ffff;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), inset 0 0 15px rgba(0, 255, 255, 0.1);
   background: rgba(0, 0, 0, 0.8);
   width: 100%;
-  aspect-ratio: 1 / 2;
+  max-height: 50vh;
 }
 
 #gameCanvas {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 .game-over-overlay,
@@ -172,13 +173,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .stats-bar {
   display: flex;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 6px;
 }
 
 .stat-item {
@@ -189,52 +190,52 @@ body {
 
 .stat-label {
   color: #aaa;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
 }
 
 .stat-value {
   color: #ffd700;
   font-family: 'PressStart2P', monospace;
-  font-size: 0.7rem;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  font-size: 0.6rem;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
 }
 
 .high-score {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 15px;
-  padding: 10px 15px;
+  margin-top: 8px;
+  padding: 6px 10px;
   background: rgba(255, 215, 0, 0.1);
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid rgba(255, 215, 0, 0.3);
 }
 
 .high-score-label {
   color: #ffd700;
-  font-size: 0.75rem;
-  margin-bottom: 5px;
+  font-size: 0.65rem;
+  margin-bottom: 3px;
 }
 
 .high-score-value {
   color: #ffd700;
   font-family: 'PressStart2P', monospace;
-  font-size: 0.9rem;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+  font-size: 0.7rem;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
 }
 
 .controls-area {
   width: 100%;
-  max-width: 320px;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 10px;
+  padding: 12px 8px;
   position: relative;
   background: rgba(0, 0, 0, 0.4);
-  border: 2px solid #00ffff;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  border: 1px solid #00ffff;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
 }
 
 .control-section {
@@ -246,30 +247,30 @@ body {
 
 .control-section h3 {
   color: #00ffff;
-  font-size: 0.8rem;
-  margin-bottom: 12px;
+  font-size: 0.7rem;
+  margin-bottom: 8px;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .game-controls {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 6px;
+  margin-bottom: 12px;
   width: 100%;
 }
 
 .btn {
   flex: 1;
-  padding: 12px;
+  padding: 8px 6px;
   border: none;
-  border-radius: 8px;
-  font-size: 0.8rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.15s ease;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   -webkit-appearance: none;
 }
 
@@ -330,17 +331,17 @@ body {
 
 .control-row {
   display: flex;
-  gap: 12px;
+  gap: 8px;
 }
 
 .control-btn {
-  width: 65px;
-  height: 65px;
-  font-size: 1.8rem;
+  width: 50px;
+  height: 50px;
+  font-size: 1.4rem;
   background: rgba(0, 255, 255, 0.2);
   border: 2px solid #00ffff;
   color: #00ffff;
-  border-radius: 14px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.15s ease;
   -webkit-appearance: none;
@@ -351,21 +352,21 @@ body {
 
 .control-btn:active {
   background: rgba(0, 255, 255, 0.5);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
   transform: scale(0.92);
 }
 
 .wide-btn {
   width: 100%;
-  max-width: 220px;
-  height: 55px;
-  font-size: 1rem;
+  max-width: 180px;
+  height: 40px;
+  font-size: 0.8rem;
 }
 
 .swipe-hint {
   color: #00ffff;
-  font-size: 0.7rem;
-  margin-top: 12px;
+  font-size: 0.6rem;
+  margin-top: 8px;
   opacity: 0.7;
 }
 
