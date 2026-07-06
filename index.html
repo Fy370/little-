@@ -28,35 +28,46 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a2a 100%);
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
+  flex-direction: column;
+  padding: 0;
   touch-action: none;
   overflow: hidden;
 }
 
 .game-container {
-  text-align: center;
-  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   width: 100%;
 }
 
 .game-title {
   font-family: 'PressStart2P', monospace;
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: #00ffff;
-  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
-  margin-bottom: 15px;
-  letter-spacing: 3px;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+  padding: 10px 0;
+  text-align: center;
+  letter-spacing: 2px;
 }
 
-.game-wrapper {
+.game-area {
+  flex: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  justify-content: center;
+  padding: 10px;
+  min-height: 0;
+}
+
+.game-board-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
 }
 
 .game-board {
@@ -65,13 +76,14 @@ body {
   border-radius: 8px;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.1);
   background: rgba(0, 0, 0, 0.8);
-  max-width: 100%;
+  width: 100%;
+  aspect-ratio: 1 / 2;
 }
 
 #gameCanvas {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 .game-over-overlay,
@@ -98,28 +110,28 @@ body {
 .pause-content {
   text-align: center;
   color: #fff;
-  padding: 20px;
+  padding: 15px;
 }
 
 .game-over-content h2 {
   font-family: 'PressStart2P', monospace;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   color: #ff4444;
   text-shadow: 0 0 10px #ff4444;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .pause-content h2 {
   font-family: 'PressStart2P', monospace;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   color: #ffff00;
   text-shadow: 0 0 10px #ffff00;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .game-over-content p {
-  font-size: 1rem;
-  margin-bottom: 15px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
 }
 
 .game-over-content p span {
@@ -127,93 +139,108 @@ body {
   font-weight: bold;
 }
 
-.side-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  max-width: 300px;
-}
-
-.panel-section {
-  background: rgba(0, 0, 0, 0.6);
-  border: 2px solid #00ffff;
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-}
-
-.panel-section h3 {
-  color: #00ffff;
-  font-size: 0.8rem;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.next-wrapper {
+.info-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+}
+
+.next-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 #nextCanvas {
-  display: block;
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 4px;
 }
 
-.stats-mini {
+.next-label {
+  color: #00ffff;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stats-bar {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  flex: 1;
-  margin-left: 10px;
+  gap: 15px;
 }
 
 .stat-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .stat-label {
   color: #aaa;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
 }
 
 .stat-value {
   color: #ffd700;
   font-family: 'PressStart2P', monospace;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
-.stats-full {
+.controls-area {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 2px solid #00ffff;
+}
+
+.control-section {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.control-section h3 {
+  color: #00ffff;
+  font-size: 0.75rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.game-controls {
+  display: flex;
   gap: 8px;
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 .btn {
-  width: 100%;
+  flex: 1;
   padding: 10px;
   border: none;
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 6px;
   -webkit-appearance: none;
-}
-
-.btn:last-child {
-  margin-bottom: 0;
 }
 
 .btn-primary {
@@ -225,7 +252,7 @@ body {
 .btn-primary:active {
   background: linear-gradient(135deg, #00ffff, #00ccff);
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-  transform: scale(0.98);
+  transform: scale(0.95);
 }
 
 .btn-secondary {
@@ -237,7 +264,7 @@ body {
 .btn-secondary:active {
   background: linear-gradient(135deg, #aaaaff, #6666cc);
   box-shadow: 0 0 20px rgba(136, 136, 255, 0.8);
-  transform: scale(0.98);
+  transform: scale(0.95);
 }
 
 .btn-danger {
@@ -249,65 +276,59 @@ body {
 .btn-danger:active {
   background: linear-gradient(135deg, #ff6666, #cc0000);
   box-shadow: 0 0 20px rgba(255, 68, 68, 0.8);
-  transform: scale(0.98);
+  transform: scale(0.95);
 }
 
-.instructions {
-  text-align: left;
-}
-
-.instruction-item {
-  color: #ccc;
-  font-size: 0.7rem;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.instruction-item:last-child {
-  border-bottom: none;
-}
-
-.mobile-controls {
-  display: block;
-}
-
-.controls-grid {
+.touch-controls {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
+}
+
+.control-row {
+  display: flex;
+  gap: 10px;
 }
 
 .control-btn {
-  width: 50px;
-  height: 50px;
-  font-size: 1.4rem;
+  width: 60px;
+  height: 60px;
+  font-size: 1.6rem;
   background: rgba(0, 255, 255, 0.2);
   border: 2px solid #00ffff;
   color: #00ffff;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.15s ease;
   -webkit-appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .control-btn:active {
   background: rgba(0, 255, 255, 0.5);
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-  transform: scale(0.95);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+  transform: scale(0.92);
 }
 
 .wide-btn {
   width: 100%;
-  font-size: 0.85rem;
-  padding: 12px;
+  max-width: 200px;
+  height: 50px;
+  font-size: 0.9rem;
 }
 
 .swipe-hint {
   color: #00ffff;
-  font-size: 0.75rem;
-  margin-top: 8px;
-  animation: pulse 2s infinite;
+  font-size: 0.65rem;
+  margin-top: 10px;
+  opacity: 0.7;
+}
+
+.instructions-desktop {
+  display: none;
 }
 
 @keyframes pulse {
@@ -316,46 +337,113 @@ body {
 }
 
 @media (min-width: 600px) {
+  body {
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
   .game-container {
-    max-width: 600px;
+    max-width: 700px;
+    height: auto;
+    min-height: 600px;
+    flex-direction: row;
+    gap: 20px;
   }
 
   .game-title {
-    font-size: 2rem;
-    margin-bottom: 25px;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
   }
 
-  .game-wrapper {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 25px;
+  .game-area {
+    flex: 1;
+    padding: 0;
+    justify-content: flex-start;
+    margin-top: 60px;
   }
 
   .game-board {
-    transform: none;
+    max-width: 300px;
   }
 
-  .side-panel {
-    width: 200px;
-    max-width: 200px;
-  }
-
-  .next-wrapper {
+  .info-bar {
     flex-direction: column;
-  }
-
-  #nextCanvas {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 10px;
-  }
-
-  .stats-mini {
+    gap: 10px;
+    align-items: flex-start;
+    max-width: 200px;
+    margin-top: 15px;
     margin-left: 0;
   }
 
-  .instructions {
+  .next-preview {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #nextCanvas {
+    width: 80px;
+    height: 80px;
+  }
+
+  .stats-bar {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .stat-item {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .controls-area {
+    flex: 0 0 200px;
+    border-top: none;
+    border-left: 2px solid #00ffff;
+    padding: 20px;
+    margin-top: 60px;
+    justify-content: flex-start;
+  }
+
+  .game-controls {
+    flex-direction: column;
+  }
+
+  .touch-controls {
+    display: none;
+  }
+
+  .instructions-desktop {
     display: block;
+    margin-top: 20px;
+  }
+
+  .instructions-desktop h3 {
+    color: #00ffff;
+    font-size: 0.75rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .instruction-list {
+    text-align: left;
+  }
+
+  .instruction-item {
+    color: #ccc;
+    font-size: 0.7rem;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .instruction-item:last-child {
+    border-bottom: none;
   }
 
   .swipe-hint {
@@ -364,16 +452,8 @@ body {
 }
 
 @media (min-width: 768px) {
-  body {
-    padding: 20px;
-  }
-
   .game-title {
-    font-size: 2.5rem;
-  }
-
-  .game-wrapper {
-    gap: 30px;
+    font-size: 2rem;
   }
 }
   </style>
@@ -382,75 +462,79 @@ body {
   <div class="game-container">
     <h1 class="game-title">俄罗斯方块</h1>
     
-    <div class="game-wrapper">
-      <div class="game-board" id="gameBoard">
-        <canvas id="gameCanvas" width="300" height="600"></canvas>
-        <div class="game-over-overlay" id="gameOverOverlay">
-          <div class="game-over-content">
-            <h2>游戏结束</h2>
-            <p>最终得分: <span id="finalScore">0</span></p>
-            <button class="btn btn-primary" onclick="game.restart()">重新开始</button>
+    <div class="game-area">
+      <div class="game-board-wrapper">
+        <div class="game-board" id="gameBoard">
+          <canvas id="gameCanvas" width="300" height="600"></canvas>
+          <div class="game-over-overlay" id="gameOverOverlay">
+            <div class="game-over-content">
+              <h2>游戏结束</h2>
+              <p>最终得分: <span id="finalScore">0</span></p>
+              <button class="btn btn-primary" onclick="game.restart()">重新开始</button>
+            </div>
           </div>
-        </div>
-        <div class="pause-overlay" id="pauseOverlay">
-          <div class="pause-content">
-            <h2>游戏暂停</h2>
-            <button class="btn btn-primary" onclick="game.togglePause()">继续游戏</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="side-panel">
-        <div class="panel-section">
-          <div class="next-wrapper">
-            <canvas id="nextCanvas" width="80" height="80"></canvas>
-            <div class="stats-mini">
-              <div class="stat-item">
-                <span class="stat-label">得分</span>
-                <span class="stat-value" id="score">0</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">等级</span>
-                <span class="stat-value" id="level">1</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">行数</span>
-                <span class="stat-value" id="lines">0</span>
-              </div>
+          <div class="pause-overlay" id="pauseOverlay">
+            <div class="pause-content">
+              <h2>游戏暂停</h2>
+              <button class="btn btn-primary" onclick="game.togglePause()">继续游戏</button>
             </div>
           </div>
         </div>
-
-        <div class="panel-section">
-          <h3>控制</h3>
-          <button class="btn btn-primary" onclick="game.start()">开始游戏</button>
-          <button class="btn btn-secondary" onclick="game.togglePause()">暂停</button>
-          <button class="btn btn-danger" onclick="game.restart()">重新开始</button>
+      </div>
+      
+      <div class="info-bar">
+        <div class="next-preview">
+          <canvas id="nextCanvas" width="50" height="50"></canvas>
+          <span class="next-label">下一个</span>
         </div>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-label">得分</span>
+            <span class="stat-value" id="score">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">等级</span>
+            <span class="stat-value" id="level">1</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">行数</span>
+            <span class="stat-value" id="lines">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <div class="panel-section">
+    <div class="controls-area">
+      <div class="control-section">
+        <div class="game-controls">
+          <button class="btn btn-primary" onclick="game.start()">开始</button>
+          <button class="btn btn-secondary" onclick="game.togglePause()">暂停</button>
+          <button class="btn btn-danger" onclick="game.restart()">重置</button>
+        </div>
+        
+        <div class="touch-controls">
+          <div class="control-row">
+            <button class="control-btn" onclick="game.rotate()">↻</button>
+          </div>
+          <div class="control-row">
+            <button class="control-btn" onclick="game.moveLeft()">←</button>
+            <button class="control-btn" onclick="game.moveDown()">↓</button>
+            <button class="control-btn" onclick="game.moveRight()">→</button>
+          </div>
+          <button class="control-btn wide-btn" onclick="game.hardDrop()">快速落下</button>
+        </div>
+        
+        <div class="swipe-hint">← 在游戏区域左右滑动也可控制 →</div>
+        
+        <div class="instructions-desktop">
           <h3>操作说明</h3>
-          <div class="instructions">
+          <div class="instruction-list">
             <div class="instruction-item">← → 左右移动</div>
             <div class="instruction-item">↑ 旋转方块</div>
             <div class="instruction-item">↓ 加速下落</div>
             <div class="instruction-item">空格 快速落下</div>
             <div class="instruction-item">P 暂停/继续</div>
           </div>
-        </div>
-
-        <div class="panel-section mobile-controls">
-          <h3>触屏控制</h3>
-          <div class="controls-grid">
-            <button class="control-btn" onclick="game.rotate()">↻</button>
-          </div>
-          <div class="controls-grid">
-            <button class="control-btn" onclick="game.moveLeft()">←</button>
-            <button class="control-btn" onclick="game.moveDown()">↓</button>
-            <button class="control-btn" onclick="game.moveRight()">→</button>
-          </div>
-          <button class="control-btn wide-btn" onclick="game.hardDrop()">快速落下</button>
-          <div class="swipe-hint">← 左右滑动屏幕也可控制 →</div>
         </div>
       </div>
     </div>
